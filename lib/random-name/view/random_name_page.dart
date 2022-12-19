@@ -1,60 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_bloc/random-name/cubit/names_cubit.dart';
 
-class RandomNamePage extends StatefulWidget {
+class RandomNamePage extends StatelessWidget {
   const RandomNamePage({super.key});
 
   @override
-  State<RandomNamePage> createState() => _RandomNamePageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => NamesCubit(),
+      child: const RandomNameView(),
+    );
+  }
 }
 
-class _RandomNamePageState extends State<RandomNamePage> {
-  late NamesCubit cubit;
-
-  @override
-  void initState() {
-    super.initState();
-    cubit = NamesCubit();
-  }
+class RandomNameView extends StatelessWidget {
+  const RandomNameView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Random Name')),
       body: Center(
-        child: StreamBuilder<String?>(
-          stream: cubit.stream,
-          builder: (context, snapshot) {
-            final button = TextButton(
-              onPressed: cubit.pickRandomName,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(context.select((NamesCubit cubit) => cubit.state)),
+            ElevatedButton(
+              onPressed: context.read<NamesCubit>().pickRandomName,
               child: const Text('Pick a random name'),
-            );
-
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return button;
-              case ConnectionState.waiting:
-                return button;
-              case ConnectionState.active:
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(snapshot.data ?? ''),
-                    button,
-                  ],
-                );
-              case ConnectionState.done:
-                return const SizedBox();
-            }
-          },
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    cubit.close();
-    super.dispose();
   }
 }

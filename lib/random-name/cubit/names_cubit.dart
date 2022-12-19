@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:study_bloc/extension/iterable_extension.dart';
 
-class NamesCubit extends Cubit<String?> {
-  NamesCubit() : super(null);
+class NamesCubit extends Cubit<String> {
+  NamesCubit() : super('');
 
   final _names = [
     'Foo',

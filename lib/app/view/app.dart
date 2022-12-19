@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:study_bloc/app/view/main_page.dart';
 import 'package:study_bloc/counter/counter.dart';
 import 'package:study_bloc/l10n/l10n.dart';
-import 'package:study_bloc/random-name/view/random_name_page.dart';
+import 'package:study_bloc/random-name/random_name.dart';
 
 final router = GoRouter(
   routes: [
